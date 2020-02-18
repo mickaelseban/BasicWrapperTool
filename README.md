@@ -1,11 +1,11 @@
 # BasicWrapperTool
 
- [![Build Status](https://img.shields.io/appveyor/ci/mickaelseban/designpatterns/master.svg)](https://ci.appveyor.com/project/mickaelseban/designpatterns)
- [![Unit Tests](https://img.shields.io/appveyor/tests/mickaelseban/designpatterns/master.svg)](https://ci.appveyor.com/project/mickaelseban/designpatterns)
- [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_DesignPatterns&metric=alert_status)](https://sonarcloud.io/dashboard?id=mickaelseban_DesignPatterns) 
- [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_DesignPatterns&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=mickaelseban_DesignPatterns)
- [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_DesignPatterns&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=mickaelseban_DesignPatterns)
- [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_DesignPatterns&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=mickaelseban_DesignPatterns)
+ [![Build Status](https://img.shields.io/appveyor/ci/mickaelseban/basicwrappertool/master.svg)](https://ci.appveyor.com/project/mickaelseban/basicwrappertool)
+ [![Unit Tests](https://img.shields.io/appveyor/tests/mickaelseban/basicwrappertool/master.svg)](https://ci.appveyor.com/project/mickaelseban/basicwrappertool)
+ [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_BasicWrapperTool&metric=alert_status)](https://sonarcloud.io/dashboard?id=mickaelseban_BasicWrapperTool) 
+ [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_BasicWrapperTool&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=mickaelseban_BasicWrapperTool)
+ [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_BasicWrapperTool&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=mickaelseban_BasicWrapperTool)
+ [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mickaelseban_BasicWrapperTool&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=mickaelseban_BasicWrapperTool)
 
 Example:
 ```C#

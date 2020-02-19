@@ -19,3 +19,22 @@ test_script:
   - sh: dotnet test test/BasicWrapperTool.Tests --no-build /p:CollectCoverage=true /p:CoverletOutputFormat="opencover" /p:CoverletOutput=../../tests-coverage
 after_test:
   - sh: dotnet sonarscanner end /d:sonar.login=6eea5d195976578b5f56f6bcbb81be4004fe83c1
+artifacts:
+- path: '**/*.nupkg'
+  name: NuGetPackages
+deploy:
+- provider: NuGet
+  api_key:
+    secure: oy2ljzxbldmalu5eqg5a5gquaihn6doezakuxs2qvvmkoa
+  skip_symbols: false
+  symbol_server: https://nuget.smbsrc.net/
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
+notifications:
+- provider: Email
+  to:
+  - seban99@hotmail.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false

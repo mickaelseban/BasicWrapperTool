@@ -25,8 +25,9 @@ artifacts:
 deploy:
 - provider: NuGet
   api_key:
-    secure: oy2kt5o7c3y74fxa34dqsfpljcvvz66uxgefx3t7zqzsce
-  skip_symbols: true
+    secure: T8WLKXPbtp+iY2FY6hcls4Hvtn06DD9dep4gAkwUb570gwHz9dPFtvGLPnWQD+N0
+  skip_symbols: false
+  artifact: /.*\.nupkg/
 notifications:
 - provider: Email
   to:

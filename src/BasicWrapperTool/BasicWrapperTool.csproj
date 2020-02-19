@@ -7,11 +7,11 @@
     <PackageProjectUrl>https://github.com/mickaelseban/BasicWrapperTool</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mickaelseban/BasicWrapperTool</RepositoryUrl>
     <PackageId>BasicWrapperTool</PackageId>
-    <Company>BasicWrapperTool</Company>
+    <Company>github.com/mickaelseban</Company>
     <Authors>Mickael Seban</Authors>
     <Product>BasicWrapperTool</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.2</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace BasicWrapperTool.Logic
+﻿namespace BasicWrapperTool
 {
     using System;
     using System.Collections.Generic;

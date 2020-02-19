@@ -1,6 +1,5 @@
-namespace BasicWrapperTool.Tests.Logic
+namespace BasicWrapperTool.Tests
 {
-    using BasicWrapperTool.Logic;
     using Xunit;
 
     public class MaybeTests

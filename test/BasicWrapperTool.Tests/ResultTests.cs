@@ -1,6 +1,5 @@
-namespace BasicWrapperTool.Tests.Logic
+namespace BasicWrapperTool.Tests
 {
-    using BasicWrapperTool.Logic;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit;

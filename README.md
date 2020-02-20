@@ -12,10 +12,11 @@
 BasicWrapperTool contains to kinds of wrappers/containers: Maybe<T> and Result, Result<T>
  
 ```Maybe<T>``` - Intent to represents an input value (argument) of a reference type that might or might not exist, might of not be a null reference. 
-Usage beneficts: Method signature honest, avoids null-checks and mitages the billion dollar mistake (https://en.wikipedia.org/wiki/Tony_Hoare) (NullReferenceExceptions being thrown).
+Usage beneficts: Method signature honest, avoids null-checks and mitages the billion dollar mistake (https://en.wikipedia.org/wiki/Tony_Hoare) (NullReferenceExceptions being thrown)
  
 
 ```Result``` - Intent to represents a return of a method with operation status
+
 ```Result<T>``` - Intent to represents a return of a method with the outcome value and operation status
 Usage beneficts: Method signature honest, avoids null-checks, follows the Notification Pattern (https://martinfowler.com/eaaDev/Notification.html), follows the CQS design principle.
  

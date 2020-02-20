@@ -16,7 +16,7 @@ Usage beneficts: Method signature honest, avoids null-checks and mitages the bil
  
 
 Result - Intent to represents a return of a method with operation status
-Result<T> - Intent to represents a return of a method with the outcome value and operation status
+```C# Result<T> ``` - Intent to represents a return of a method with the outcome value and operation status
 Usage beneficts: Method signature honest, avoids null-checks, follows the Notification Pattern (https://martinfowler.com/eaaDev/Notification.html), follows the CQS design principle.
  
 Example:

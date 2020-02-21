@@ -42,6 +42,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
+            Assert.Equal(default(string), actual.Value);
             Assert.Equal(messages, actual.Messages);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
@@ -58,6 +59,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
+            Assert.Equal(value, actual.Value);
             Assert.Equal((new List<string>()).AsReadOnly(), actual.Messages);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);

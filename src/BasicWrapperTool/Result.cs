@@ -13,6 +13,9 @@
             this.Value = value;
         }
 
+        public bool HasMessages => this._resultComposite.HasMessages;
+        public bool HasNoMessages => this._resultComposite.HasNoMessages;
+
         public bool IsFail => this._resultComposite.IsFail;
         public bool IsSuccess => this._resultComposite.IsSuccess;
         public IReadOnlyCollection<string> Messages => this._resultComposite.Messages;

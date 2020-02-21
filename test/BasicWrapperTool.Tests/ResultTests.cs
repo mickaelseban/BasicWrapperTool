@@ -12,6 +12,8 @@ namespace BasicWrapperTool.Tests
             bool success,
             bool isSuccess,
             bool isFail,
+            bool hasMessages,
+            bool hasNoMessages,
             List<string> expectedMessages)
         {
             // Act
@@ -21,15 +23,18 @@ namespace BasicWrapperTool.Tests
             Assert.NotNull(actual);
             Assert.Equal(isFail, actual.IsFail);
             Assert.Equal(isSuccess, actual.IsSuccess);
+            Assert.Equal(hasMessages, actual.HasMessages);
+            Assert.Equal(hasNoMessages, actual.HasNoMessages);
             Assert.Equal(expectedMessages, actual.Messages);
         }
 
         [Fact]
         public void FromFail_WithParameters_ResultFromFail()
         {
-            // Act
+            // Assert
             var messages = new[] { "test" }.ToList();
 
+            // Act
             var actual = Result.FromFail(messages);
 
             // Assert
@@ -42,23 +47,22 @@ namespace BasicWrapperTool.Tests
         [Fact]
         public void FromSuccess_WithParameters_ResultFromSuccess()
         {
-            var expectedMessages = new List<string>();
             // Act
             var actual = Result.FromSuccess();
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(expectedMessages.AsReadOnly(), actual.Messages);
+            Assert.Equal((new List<string>()).AsReadOnly(), actual.Messages);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }
 
-        private class ResultTestCtorDataClass : TheoryDataClass
+        private sealed class ResultTestCtorDataClass : TheoryDataClass
         {
             public ResultTestCtorDataClass()
             {
-                this.AddRow(new[] { "test" }.ToList(), false, false, true, new[] { "test" }.ToList());
-                this.AddRow(null, true, true, false, new List<string>());
+                this.AddRow(new[] { "test" }.ToList(), false, false, true, true, false, new[] { "test" }.ToList());
+                this.AddRow(null, true, true, false, false, true, new List<string>());
             }
         }
     }

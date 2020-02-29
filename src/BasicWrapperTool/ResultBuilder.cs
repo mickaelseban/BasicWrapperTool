@@ -1,18 +1,17 @@
 ﻿namespace BasicWrapperTool
 {
     using System;
-    using System.Collections.Generic;
 
     public sealed class ResultBuilder<TResult>
     {
-        private readonly List<string> _messages;
+        private string _errorMessage;
         private bool? _success;
 
         private TResult _value;
 
         private ResultBuilder()
         {
-            this._messages = new List<string>();
+            this._errorMessage = string.Empty;
         }
 
         public static ResultBuilder<TResult> Create()
@@ -22,7 +21,7 @@
 
         public Result<TResult> Build()
         {
-            return new Result<TResult>(this._value, this._success.GetValueOrDefault(), this._messages);
+            return new Result<TResult>(this._value, this._success.GetValueOrDefault(), this._errorMessage);
         }
 
         public ResultBuilder<TResult> FromFail()
@@ -37,9 +36,9 @@
             return this;
         }
 
-        public ResultBuilder<TResult> WithMessage(string message)
+        public ResultBuilder<TResult> WithMessage(string errorMessage)
         {
-            this._messages.Add(message);
+            this._errorMessage = errorMessage;
             return this;
         }
 

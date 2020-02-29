@@ -1,7 +1,5 @@
 namespace BasicWrapperTool.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Xunit;
 
     public class ResultWithValueTests
@@ -9,25 +7,21 @@ namespace BasicWrapperTool.Tests
         [Theory]
         [ClassData(typeof(ResultWithValueTestCtorDataClass))]
         public void CtorWithValue_WithParameters_CorrectState(string value,
-            List<string> messages,
+            string errorMessage,
             bool success,
             bool isSuccess,
             bool isFail,
-            bool hasMessages,
-            bool hasNoMessages,
-            List<string> expectedMessages,
+            string expectedErrorMessage,
             string expectedValue)
         {
             // Act
-            var actual = new Result<string>(value, success, messages);
+            var actual = new Result<string>(value, success, errorMessage);
 
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(isFail, actual.IsFail);
             Assert.Equal(isSuccess, actual.IsSuccess);
-            Assert.Equal(hasMessages, actual.HasMessages);
-            Assert.Equal(hasNoMessages, actual.HasNoMessages);
-            Assert.Equal(expectedMessages, actual.Messages);
+            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
             Assert.Equal(expectedValue, value);
         }
 
@@ -35,15 +29,16 @@ namespace BasicWrapperTool.Tests
         public void FromFail_WithParameters_ResultFromFail()
         {
             // Assert
-            var messages = new[] { "test" }.ToList();
+            const string errorMessage = "test";
+            const string expectedErrorMessage = "test";
 
             // Act
-            var actual = Result<string>.FromFail(messages);
+            var actual = Result<string>.Error(errorMessage);
 
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(default(string), actual.Value);
-            Assert.Equal(messages, actual.Messages);
+            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -53,14 +48,16 @@ namespace BasicWrapperTool.Tests
         {
             // Arrange
             const string value = "value test";
+            var expectedErrorMessage = string.Empty;
+            const string expectedValue = "value test";
 
             // Act
-            var actual = Result<string>.FromSuccess(value);
+            var actual = Result<string>.Success(value);
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(value, actual.Value);
-            Assert.Equal((new List<string>()).AsReadOnly(), actual.Messages);
+            Assert.Equal(expectedValue, actual.Value);
+            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }
@@ -69,8 +66,8 @@ namespace BasicWrapperTool.Tests
         {
             public ResultWithValueTestCtorDataClass()
             {
-                this.AddRow(default(string), new[] { "test" }.ToList(), false, false, true, true, false, new[] { "test" }.ToList(), default(string));
-                this.AddRow("value test", null, true, true, false, false, true, new List<string>(), "value test");
+                this.AddRow(default(string), "test", false, false, true, "test", default(string));
+                this.AddRow("value test", null, true, true, false, string.Empty, "value test");
             }
         }
     }

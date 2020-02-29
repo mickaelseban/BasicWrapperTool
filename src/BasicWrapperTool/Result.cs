@@ -1,51 +1,39 @@
 ﻿namespace BasicWrapperTool
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class Result<TResult>
     {
         private readonly Result _resultComposite;
 
-        internal Result(TResult value, bool success, List<string> messages)
+        internal Result(TResult value, bool isSuccess, string errorMessage)
         {
-            this._resultComposite = new Result(success, messages);
+            this._resultComposite = new Result(isSuccess, errorMessage);
             this.Value = value;
         }
 
-        public bool HasMessages => this._resultComposite.HasMessages;
-        public bool HasNoMessages => this._resultComposite.HasNoMessages;
-
+        public string ErrorMessage => this._resultComposite.ErrorMessage;
         public bool IsFail => this._resultComposite.IsFail;
         public bool IsSuccess => this._resultComposite.IsSuccess;
-        public IReadOnlyCollection<string> Messages => this._resultComposite.Messages;
         public TResult Value { get; private set; }
 
-        public static Result<TResult> FromFail(List<string> errorMessages) => new Result<TResult>(default(TResult), false, errorMessages);
+        public static Result<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), false, errorMessage);
 
-        public static Result<TResult> FromSuccess(TResult value, List<string> infoMessages = null) => new Result<TResult>(value, true, infoMessages);
+        public static Result<TResult> Success(TResult value, string errorMessage = null) => new Result<TResult>(value, true, default(string));
     }
 
     public class Result
     {
-        private readonly List<string> _messages;
-
-        internal Result(bool success, List<string> messages)
+        internal Result(bool isSuccess, string errorMessage)
         {
-            this.IsSuccess = success;
-            this._messages = messages ?? new List<string>();
+            this.IsSuccess = isSuccess;
+            this.ErrorMessage = errorMessage ?? string.Empty;
         }
 
-        public bool HasMessages => this._messages.Any();
-        public bool HasNoMessages => !this.HasMessages;
+        public string ErrorMessage { get; private set; }
         public bool IsFail => !this.IsSuccess;
+        public bool IsSuccess { get; private set; }
 
-        public bool IsSuccess { get; }
+        public static Result Error(string errorMessage = null) => new Result(false, errorMessage);
 
-        public IReadOnlyCollection<string> Messages => this._messages;
-
-        public static Result FromFail(List<string> errorMessages = null) => new Result(false, errorMessages);
-
-        public static Result FromSuccess(List<string> infoMessages = null) => new Result(true, infoMessages);
+        public static Result Success() => new Result(true, default(string));
     }
 }

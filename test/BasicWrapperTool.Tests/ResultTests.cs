@@ -4,24 +4,6 @@ namespace BasicWrapperTool.Tests
 
     public class ResultTests
     {
-        [Theory]
-        [ClassData(typeof(ResultTestCtorDataClass))]
-        public void Ctor_WithParameters_CorrectState(string errorMessage,
-            bool success,
-            bool isSuccess,
-            bool isFail,
-            string expectedErrorMessage)
-        {
-            // Act
-            var actual = new Result(success, errorMessage);
-
-            // Assert
-            Assert.NotNull(actual);
-            Assert.Equal(isFail, actual.IsFail);
-            Assert.Equal(isSuccess, actual.IsSuccess);
-            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
-        }
-
         [Fact]
         public void FromFail_WithParameters_ResultFromFail()
         {
@@ -49,15 +31,6 @@ namespace BasicWrapperTool.Tests
             Assert.Equal(string.Empty, actual.ErrorMessage);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
-        }
-
-        private sealed class ResultTestCtorDataClass : TheoryDataClass
-        {
-            public ResultTestCtorDataClass()
-            {
-                this.AddRow("test", false, false, true, "test");
-                this.AddRow(null, true, true, false, string.Empty);
-            }
         }
     }
 }

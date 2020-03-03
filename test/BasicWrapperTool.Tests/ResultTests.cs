@@ -1,9 +1,28 @@
 namespace BasicWrapperTool.Tests
 {
+    using System;
     using Xunit;
 
     public class ResultTests
     {
+        [Fact]
+        public void Bind_WithResult1AndResult2Success_ResultSuccess()
+        {
+            // Arrange
+            Result<string> result = Result<string>.Success("test");
+            Result<int> result2 = Result<int>.Success(123);
+            Func<string, Result<int>> func = x => result2;
+
+            // Act
+            var actual = result.Bind(func);
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.IsType<Result<int>>(actual);
+            Assert.True(actual.IsSuccess);
+            Assert.False(actual.IsFail);
+        }
+
         [Fact]
         public void FromFail_WithParameters_ResultFromFail()
         {

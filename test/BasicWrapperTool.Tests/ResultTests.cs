@@ -14,7 +14,7 @@ namespace BasicWrapperTool.Tests
             Func<string, IResult<int>> func = x => result2;
 
             // Act
-            var actual = result.Bind(func);
+            IResult<int> actual = result.Bind(func);
 
             // Assert
             Assert.NotNull(actual);
@@ -30,7 +30,7 @@ namespace BasicWrapperTool.Tests
             const string errorMessage = "test";
 
             // Act
-            var actual = Result.Error(errorMessage);
+            Result actual = Result.Error(errorMessage);
 
             // Assert
             Assert.NotNull(actual);
@@ -43,13 +43,29 @@ namespace BasicWrapperTool.Tests
         public void FromSuccess_WithParameters_ResultFromSuccess()
         {
             // Act
-            var actual = Result.Success();
+            Result actual = Result.Success();
 
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(string.Empty, actual.ErrorMessage);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
+        }
+
+        [Fact]
+        public void ImplicitOperator_WithResult_ReturnsValue()
+        {
+            // Arrange
+            const string value = "test";
+            Result<string> result = Result<string>.Success("test");
+
+            // Act
+            string actual = result;
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.IsType<string>(actual);
+            Assert.Equal(value, value);
         }
 
         [Fact]
@@ -61,7 +77,7 @@ namespace BasicWrapperTool.Tests
             Func<string, int> func = x => result2.Value;
 
             // Act
-            var actual = result.Map(func);
+            IResult<int> actual = result.Map(func);
 
             // Assert
             Assert.NotNull(actual);

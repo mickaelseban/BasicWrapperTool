@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class Result<TResult>
+    public class Result<TResult> : IResult<TResult>
     {
         private readonly Result _resultComposite;
 
@@ -20,20 +20,20 @@
 
         public TResult Value { get; private set; }
 
-        public static Result<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
+        public static IResult<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
 
         public static implicit operator TResult(Result<TResult> result) => result.Value;
 
-        public static Result<TResult> Success(TResult value, string errorMessage = null) => new Result<TResult>(value, Result.Success());
+        public static IResult<TResult> Success(TResult value, string errorMessage = null) => new Result<TResult>(value, Result.Success());
 
-        public Result<TResult2> Bind<TResult2>(Func<TResult, Result<TResult2>> func)
+        public IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func)
         {
             return this.IsSuccess
                 ? func(this.Value)
                 : Result<TResult2>.Error(this.ErrorMessage);
         }
 
-        public Result<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
+        public IResult<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
             return this.IsSuccess
                 ? Result<TResult2>.Success(func(this.Value))
@@ -41,7 +41,7 @@
         }
     }
 
-    public class Result
+    public class Result : IResult
     {
         private Result(bool isSuccess, string errorMessage)
         {

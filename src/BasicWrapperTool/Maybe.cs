@@ -3,15 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class MaybeExtensions
-    {
-        public static Maybe<T> ToMaybe<T>(this T value) where T : class
-        {
-            return new Maybe<T>(value);
-        }
-    }
-
-    public class Maybe<T> where T : class
+    public class Maybe<T> : IMaybe<T> where T : class
     {
         private readonly IEnumerable<T> _values;
 

@@ -20,11 +20,11 @@
 
         public TResult Value { get; private set; }
 
-        public static IResult<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
+        public static Result<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
 
         public static implicit operator TResult(Result<TResult> result) => result.Value;
 
-        public static IResult<TResult> Success(TResult value, string errorMessage = null) => new Result<TResult>(value, Result.Success());
+        public static Result<TResult> Success(TResult value, string errorMessage = null) => new Result<TResult>(value, Result.Success());
 
         public IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func)
         {

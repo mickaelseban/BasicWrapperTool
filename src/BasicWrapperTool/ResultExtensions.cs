@@ -5,9 +5,9 @@
     public static class ResultExtensions
     {
         public static IResult<TResult> FromMaybe<TMaybe, TResult>(this IMaybe<TMaybe> maybe,
-            string errorMessage,
-            Func<IResult<TResult>> func)
-            where TMaybe : class
+                  string errorMessage,
+                  Func<IResult<TResult>> func)
+                  where TMaybe : class
         {
             return maybe.HasValue
                 ? Result<TResult>.Success(func.Invoke().Value)
@@ -25,15 +25,6 @@
             return result.Bind(func);
         }
 
-        public static IResult<TResult> SelectMany<TSource, TM, TResult>(this IResult<TSource> result,
-            Func<TSource, IResult<TM>> mSelector, Func<TSource, TM, TResult> rSelector)
-        {
-            return result.Bind(v =>
-                mSelector(v)
-                    .Map(tm =>
-                        rSelector(v, tm)));
-        }
-
         public static IResult<TResult> Try<TResult>(this Func<TResult> func)
         {
             try
@@ -43,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                return Result<TResult>.Error(ex.Message);
+                return Result<TResult>.ErrorFromException(ex);
             }
         }
     }

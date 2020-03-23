@@ -22,7 +22,7 @@
 
         public static Result<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
 
-        public static Result<TResult> ErrorFromException(Exception exception) => new Result<TResult>(default(TResult), Result.Error(exception.Message));
+        public static Result<TResult> ErrorFromException(Exception exception) => new Result<TResult>(default(TResult), Result.ErrorFromException(exception));
 
         public static implicit operator TResult(Result<TResult> result) => result.Value;
 
@@ -52,10 +52,14 @@
         }
 
         public string ErrorMessage { get; private set; }
+
         public bool IsFail => !this.IsSuccess;
+
         public bool IsSuccess { get; private set; }
 
         public static Result Error(string errorMessage = null) => new Result(false, errorMessage);
+
+        public static Result ErrorFromException(Exception exception) => new Result(false, exception.Message);
 
         public static Result Success() => new Result(true, default(string));
     }

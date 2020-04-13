@@ -11,7 +11,7 @@
         {
             return maybe.HasValue
                 ? Result<TResult>.Success(func.Invoke().Value)
-                : Result<TResult>.Error(errorMessage);
+                : Result<TResult>.Fail(errorMessage);
         }
 
         public static IResult<TResult> Select<TSource, TResult>(this IResult<TSource> result, Func<TSource, TResult> func)

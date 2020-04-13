@@ -47,7 +47,7 @@ namespace BasicWrapperTool.Tests
             const string errorMessage = "test";
 
             // Act
-            Result actual = Result.Error(errorMessage);
+            Result actual = Result.Fail(errorMessage);
 
             // Assert
             Assert.NotNull(actual);

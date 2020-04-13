@@ -13,7 +13,7 @@ namespace BasicWrapperTool.Tests
             const string expectedErrorMessage = "test";
 
             // Act
-            var actual = Result<string>.Error(errorMessage);
+            var actual = Result<string>.Fail(errorMessage);
 
             // Assert
             Assert.NotNull(actual);

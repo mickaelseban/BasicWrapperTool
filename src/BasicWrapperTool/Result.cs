@@ -20,9 +20,9 @@
 
         public TResult Value { get; private set; }
 
-        public static Result<TResult> Error(string errorMessage) => new Result<TResult>(default(TResult), Result.Error(errorMessage));
-
         public static Result<TResult> ErrorFromException(Exception exception) => new Result<TResult>(default(TResult), Result.ErrorFromException(exception));
+
+        public static Result<TResult> Fail(string errorMessage) => new Result<TResult>(default(TResult), Result.Fail(errorMessage));
 
         public static implicit operator TResult(Result<TResult> result) => result.Value;
 
@@ -32,14 +32,14 @@
         {
             return this.IsSuccess
                 ? func(this.Value)
-                : Result<TResult2>.Error(this.ErrorMessage);
+                : Result<TResult2>.Fail(this.ErrorMessage);
         }
 
         public IResult<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
             return this.IsSuccess
                 ? Result<TResult2>.Success(func(this.Value))
-                : Result<TResult2>.Error(this.ErrorMessage);
+                : Result<TResult2>.Fail(this.ErrorMessage);
         }
     }
 
@@ -57,9 +57,9 @@
 
         public bool IsSuccess { get; private set; }
 
-        public static Result Error(string errorMessage = null) => new Result(false, errorMessage);
-
         public static Result ErrorFromException(Exception exception) => new Result(false, exception.Message);
+
+        public static Result Fail(string errorMessage = null) => new Result(false, errorMessage);
 
         public static Result Success() => new Result(true, default(string));
     }

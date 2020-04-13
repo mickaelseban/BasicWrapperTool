@@ -4,14 +4,14 @@
 
     public interface IResult
     {
-        string ErrorMessage { get; }
+        string FailMessage { get; }
         bool IsFail { get; }
         bool IsSuccess { get; }
     }
 
     public interface IResult<out TResult>
     {
-        string ErrorMessage { get; }
+        string FailMessage { get; }
 
         bool IsFail { get; }
 

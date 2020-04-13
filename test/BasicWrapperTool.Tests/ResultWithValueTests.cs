@@ -6,37 +6,37 @@ namespace BasicWrapperTool.Tests
     public class ResultWithValueTests
     {
         [Fact]
-        public void Error_WithParameters_ResultFail()
+        public void Fail_WithParameters_ResultFail()
         {
             // Assert
-            const string errorMessage = "test";
-            const string expectedErrorMessage = "test";
+            const string failMessage = "test";
+            const string expectedFailMessage = "test";
 
             // Act
-            var actual = Result<string>.Fail(errorMessage);
+            var actual = Result<string>.Fail(failMessage);
 
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(default(string), actual.Value);
-            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedFailMessage, actual.FailMessage);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
 
         [Fact]
-        public void ErrorFromException_WithException_ResultFail()
+        public void FailFromException_WithException_ResultFail()
         {
             // Assert
             const string message = "test";
             var exception = new Exception(message);
 
             // Act
-            var actual = Result<string>.ErrorFromException(exception);
+            var actual = Result<string>.FailFromException(exception);
 
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(default(string), actual.Value);
-            Assert.Equal(message, actual.ErrorMessage);
+            Assert.Equal(message, actual.FailMessage);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -48,7 +48,7 @@ namespace BasicWrapperTool.Tests
         {
             // Arrange
             const string value = "value test";
-            var expectedErrorMessage = string.Empty;
+            var expectedFailMessage = string.Empty;
             const string expectedValue = "value test";
 
             // Act
@@ -57,7 +57,7 @@ namespace BasicWrapperTool.Tests
             // Assert
             Assert.NotNull(actual);
             Assert.Equal(expectedValue, actual.Value);
-            Assert.Equal(expectedErrorMessage, actual.ErrorMessage);
+            Assert.Equal(expectedFailMessage, actual.FailMessage);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }

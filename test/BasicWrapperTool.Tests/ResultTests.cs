@@ -24,18 +24,18 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
-        public void ErrorFromException_WithException_ResultFail()
+        public void FailFromException_WithException_ResultFail()
         {
             // Assert
             const string message = "test";
             var exception = new Exception(message);
 
             // Act
-            var actual = Result.ErrorFromException(exception);
+            var actual = Result.FailFromException(exception);
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(message, actual.ErrorMessage);
+            Assert.Equal(message, actual.FailMessage);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -44,14 +44,14 @@ namespace BasicWrapperTool.Tests
         public void FromFail_WithParameters_ResultFromFail()
         {
             // Assert
-            const string errorMessage = "test";
+            const string failMessage = "test";
 
             // Act
-            Result actual = Result.Fail(errorMessage);
+            Result actual = Result.Fail(failMessage);
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(errorMessage, actual.ErrorMessage);
+            Assert.Equal(failMessage, actual.FailMessage);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -64,7 +64,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(string.Empty, actual.ErrorMessage);
+            Assert.Equal(string.Empty, actual.FailMessage);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }

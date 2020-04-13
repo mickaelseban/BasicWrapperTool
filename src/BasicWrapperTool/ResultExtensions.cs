@@ -5,13 +5,13 @@
     public static class ResultExtensions
     {
         public static IResult<TResult> FromMaybe<TMaybe, TResult>(this IMaybe<TMaybe> maybe,
-                  string errorMessage,
+                  string failMessage,
                   Func<IResult<TResult>> func)
                   where TMaybe : class
         {
             return maybe.HasValue
                 ? Result<TResult>.Success(func.Invoke().Value)
-                : Result<TResult>.Fail(errorMessage);
+                : Result<TResult>.Fail(failMessage);
         }
 
         public static IResult<TResult> Select<TSource, TResult>(this IResult<TSource> result, Func<TSource, TResult> func)
@@ -34,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                return Result<TResult>.ErrorFromException(ex);
+                return Result<TResult>.FailFromException(ex);
             }
         }
     }

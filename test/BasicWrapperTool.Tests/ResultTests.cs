@@ -35,7 +35,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(message, actual.FailMessage);
+            Assert.Equal(message, actual.Message);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -51,7 +51,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(failMessage, actual.FailMessage);
+            Assert.Equal(failMessage, actual.Message);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);
         }
@@ -64,7 +64,7 @@ namespace BasicWrapperTool.Tests
 
             // Assert
             Assert.NotNull(actual);
-            Assert.Equal(string.Empty, actual.FailMessage);
+            Assert.Equal(string.Empty, actual.Message);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }

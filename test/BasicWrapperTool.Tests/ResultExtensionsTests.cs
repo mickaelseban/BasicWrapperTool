@@ -80,7 +80,7 @@ namespace BasicWrapperTool.Tests
             Assert.True(actual.IsFail);
             Assert.False(actual.IsSuccess);
             Assert.Equal(default(int), actual.Value);
-            Assert.NotEqual(string.Empty, actual.FailMessage);
+            Assert.NotEqual(string.Empty, actual.Message);
         }
 
         [Fact]

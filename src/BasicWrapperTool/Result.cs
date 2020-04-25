@@ -1,66 +1,91 @@
 ﻿namespace BasicWrapperTool
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
 
-    public class Result<TResult> : IResult<TResult>
+    public sealed class Result<TResult> : Result, IResult<TResult>
     {
-        private readonly Result _resultComposite;
-
-        private Result(TResult value, Result resultComposite)
+        private Result(TResult value, bool isSuccess, string message, Exception exception)
+            : base(isSuccess, message, exception)
         {
-            this._resultComposite = resultComposite;
             this.Value = value;
         }
 
-        public string FailMessage => this._resultComposite.FailMessage;
-
-        public bool IsFail => this._resultComposite.IsFail;
-
-        public bool IsSuccess => this._resultComposite.IsSuccess;
-
         public TResult Value { get; private set; }
 
-        public static Result<TResult> Fail(string failMessage) => new Result<TResult>(default(TResult), Result.Fail(failMessage));
+        public new static Result<TResult> Fail(string message = null)
+        {
+            return new Result<TResult>(default(TResult), false, message, default(Exception));
+        }
 
-        public static Result<TResult> FailFromException(Exception exception) => new Result<TResult>(default(TResult), Result.FailFromException(exception));
+        public new static Result<TResult> FailFromException(Exception exception)
+        {
+            return new Result<TResult>(default(TResult), false, exception.Message, exception);
+        }
 
         public static implicit operator TResult(Result<TResult> result) => result.Value;
 
-        public static Result<TResult> Success(TResult value, string failMessage = null) => new Result<TResult>(value, Result.Success());
+        public static Result<TResult> Success(TResult value)
+        {
+            return new Result<TResult>(value, true, default(string), default(Exception));
+        }
 
         public IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func)
         {
             return this.IsSuccess
                 ? func(this.Value)
-                : Result<TResult2>.Fail(this.FailMessage);
+                : Result<TResult2>.Fail(this.Message);
         }
 
         public IResult<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
             return this.IsSuccess
                 ? Result<TResult2>.Success(func(this.Value))
-                : Result<TResult2>.Fail(this.FailMessage);
+                : Result<TResult2>.Fail(this.Message);
         }
     }
 
     public class Result : IResult
     {
-        private Result(bool isSuccess, string failMessage)
+        private readonly IList<string> _messages = new List<string>();
+
+        protected Result(bool isSuccess, string message, Exception exception)
         {
             this.IsSuccess = isSuccess;
-            this.FailMessage = failMessage ?? string.Empty;
+            this.Exception = exception;
+            this.Messages = new ReadOnlyCollection<string>(this._messages);
+            this._messages.Add(message ?? string.Empty);
         }
 
-        public string FailMessage { get; private set; }
+        public Exception Exception { get; }
 
         public bool IsFail => !this.IsSuccess;
-
+        public bool IsFailFromException => !this.IsFail && (this.Exception != null);
         public bool IsSuccess { get; private set; }
+        public string Message => string.Join(", ", this._messages.Where(f => !string.IsNullOrEmpty(f)));
+        public IReadOnlyCollection<string> Messages { get; }
 
-        public static Result Fail(string failMessage = null) => new Result(false, failMessage);
+        public static Result Fail(string message = null)
+        {
+            return new Result(false, message, default(Exception));
+        }
 
-        public static Result FailFromException(Exception exception) => new Result(false, exception.Message);
+        public static Result FailFromException(Exception exception)
+        {
+            return new Result(false, exception.Message, exception);
+        }
 
-        public static Result Success() => new Result(true, default(string));
+        public static Result Success()
+        {
+            return new Result(true, default(string), default(Exception));
+        }
+
+        public void AddMessage(string message)
+        {
+            if (string.IsNullOrEmpty(message))
+                this._messages.Add(message);
+        }
     }
 }

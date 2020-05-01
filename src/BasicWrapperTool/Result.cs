@@ -2,90 +2,89 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
-    public sealed class Result<TResult> : Result, IResult<TResult>
+    public struct Result<TResult> : IResult<TResult>
     {
-        private Result(TResult value, bool isSuccess, string message, Exception exception)
-            : base(isSuccess, message, exception)
+        private readonly Result _resultComposite;
+
+        private Result(TResult value, Result resultComposite)
         {
+            this._resultComposite = resultComposite;
             this.Value = value;
         }
 
-        public TResult Value { get; private set; }
+        public bool IsFail => this._resultComposite.IsFail;
+        public bool IsSuccess => this._resultComposite.IsSuccess;
+        public string Message => this._resultComposite.Message;
 
-        public new static Result<TResult> Fail(string message = null)
+        public IEnumerable<string> Messages => this._resultComposite.Messages;
+        public TResult Value { get; }
+
+        public static Result<TResult> Fail(IEnumerable<string> messages)
         {
-            return new Result<TResult>(default(TResult), false, message, default(Exception));
+            return new Result<TResult>(default(TResult), Result.Fail(messages));
         }
 
-        public new static Result<TResult> FailFromException(Exception exception)
+        public static Result<TResult> Fail(string message)
         {
-            return new Result<TResult>(default(TResult), false, exception.Message, exception);
+            return new Result<TResult>(default(TResult), Result.Fail(message));
         }
 
-        public static implicit operator TResult(Result<TResult> result) => result.Value;
-
-        public static Result<TResult> Success(TResult value)
+        public static implicit operator TResult(Result<TResult> result)
         {
-            return new Result<TResult>(value, true, default(string), default(Exception));
+            return result.Value;
+        }
+
+        public static Result<TResult> Success(TResult value, string failMessage = null)
+        {
+            return new Result<TResult>(value, Result.Success());
         }
 
         public IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func)
         {
             return this.IsSuccess
                 ? func(this.Value)
-                : Result<TResult2>.Fail(this.Message);
+                : Result<TResult2>.Fail(this.Messages);
         }
 
         public IResult<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
             return this.IsSuccess
                 ? Result<TResult2>.Success(func(this.Value))
-                : Result<TResult2>.Fail(this.Message);
+                : Result<TResult2>.Fail(this.Messages);
         }
     }
 
-    public class Result : IResult
+    public struct Result : IResult
     {
-        private readonly IList<string> _messages = new List<string>();
-
-        protected Result(bool isSuccess, string message, Exception exception)
+        private Result(bool isSuccess, IEnumerable<string> messages)
         {
             this.IsSuccess = isSuccess;
-            this.Exception = exception;
-            this.Messages = new ReadOnlyCollection<string>(this._messages);
-            this._messages.Add(message ?? string.Empty);
+            this.Messages = messages?.Where(m => !string.IsNullOrEmpty(m)) ?? Enumerable.Empty<string>();
         }
-
-        public Exception Exception { get; }
 
         public bool IsFail => !this.IsSuccess;
-        public bool IsFailFromException => !this.IsFail && (this.Exception != null);
-        public bool IsSuccess { get; private set; }
-        public string Message => string.Join(", ", this._messages.Where(f => !string.IsNullOrEmpty(f)));
-        public IReadOnlyCollection<string> Messages { get; }
 
-        public static Result Fail(string message = null)
+        public bool IsSuccess { get; private set; }
+
+        public string Message => string.Join(", ", this.Messages);
+
+        public IEnumerable<string> Messages { get; }
+
+        public static Result Fail(string message)
         {
-            return new Result(false, message, default(Exception));
+            return new Result(false, new List<string> { message });
         }
 
-        public static Result FailFromException(Exception exception)
+        public static Result Fail(IEnumerable<string> messages)
         {
-            return new Result(false, exception.Message, exception);
+            return new Result(false, messages);
         }
 
         public static Result Success()
         {
-            return new Result(true, default(string), default(Exception));
-        }
-
-        public void AddMessage(string message)
-        {
-            if (string.IsNullOrEmpty(message))
-                this._messages.Add(message);
+            return new Result(true, default(IEnumerable<string>));
         }
     }
 }

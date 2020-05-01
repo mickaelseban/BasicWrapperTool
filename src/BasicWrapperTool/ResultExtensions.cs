@@ -34,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                return Result<TResult>.FailFromException(ex);
+                return Result<TResult>.Fail(ex.Message);
             }
         }
     }

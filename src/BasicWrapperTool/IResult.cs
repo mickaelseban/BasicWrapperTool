@@ -5,23 +5,25 @@
 
     public interface IResult
     {
-        Exception Exception { get; }
-
         bool IsFail { get; }
-
-        bool IsFailFromException { get; }
 
         bool IsSuccess { get; }
 
         string Message { get; }
 
-        IReadOnlyCollection<string> Messages { get; }
-
-        void AddMessage(string message);
+        IEnumerable<string> Messages { get; }
     }
 
-    public interface IResult<out TResult> : IResult
+    public interface IResult<out TResult>
     {
+        bool IsFail { get; }
+
+        bool IsSuccess { get; }
+
+        string Message { get; }
+
+        IEnumerable<string> Messages { get; }
+
         TResult Value { get; }
 
         IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func);

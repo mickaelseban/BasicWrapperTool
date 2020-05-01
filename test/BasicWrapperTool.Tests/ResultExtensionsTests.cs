@@ -54,7 +54,7 @@ namespace BasicWrapperTool.Tests
             // Arrange
             Result<string> result = Result<string>.Success("test");
             Result<int> result2 = Result<int>.Success(123);
-            Func<string, Result<int>> func = x => result2;
+            Func<string, IResult<int>> func = x => result2;
 
             // Act
             IResult<int> actual = result.SelectMany(func);

@@ -24,6 +24,22 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
+        public void ExplicitOperator_WithResult_ReturnsValue()
+        {
+            // Arrange
+            const string value = "test";
+            Result<string> result = Result<string>.Success("test");
+
+            // Act
+            string actual = (string)result;
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.IsType<string>(actual);
+            Assert.Equal(value, value);
+        }
+
+        [Fact]
         public void FromFail_WithParameters_ResultFromFail()
         {
             // Assert
@@ -48,22 +64,6 @@ namespace BasicWrapperTool.Tests
             Assert.Equal(string.Empty, actual.Message);
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
-        }
-
-        [Fact]
-        public void ImplicitOperator_WithResult_ReturnsValue()
-        {
-            // Arrange
-            const string value = "test";
-            Result<string> result = Result<string>.Success("test");
-
-            // Act
-            string actual = result;
-
-            // Assert
-            Assert.NotNull(actual);
-            Assert.IsType<string>(actual);
-            Assert.Equal(value, value);
         }
 
         [Fact]

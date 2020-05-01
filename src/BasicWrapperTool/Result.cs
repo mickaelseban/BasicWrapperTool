@@ -21,6 +21,11 @@
         public IEnumerable<string> Messages => this._resultComposite.Messages;
         public TResult Value { get; }
 
+        public static explicit operator TResult(Result<TResult> result)
+        {
+            return result.Value;
+        }
+
         public static Result<TResult> Fail(IEnumerable<string> messages)
         {
             return new Result<TResult>(default(TResult), Result.Fail(messages));
@@ -29,11 +34,6 @@
         public static Result<TResult> Fail(string message)
         {
             return new Result<TResult>(default(TResult), Result.Fail(message));
-        }
-
-        public static implicit operator TResult(Result<TResult> result)
-        {
-            return result.Value;
         }
 
         public static Result<TResult> Success(TResult value, string failMessage = null)

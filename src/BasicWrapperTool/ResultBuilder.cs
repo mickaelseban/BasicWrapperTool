@@ -18,9 +18,17 @@
             return this._messages.Any() ? Result<T>.Fail(this._messages) : Result<T>.Success(value);
         }
 
-        public ResultBuilder Ensure(Func<bool> func, string message)
+        public ResultBuilder Ensure(Func<bool> validation, string message)
         {
-            if (!Validate(func))
+            if (!Validate(validation))
+                this._messages.Add(message);
+
+            return this;
+        }
+
+        public ResultBuilder EnsureNotNull<T>(T inputValidation, string message) where T : class
+        {
+            if (inputValidation is null)
                 this._messages.Add(message);
 
             return this;

@@ -16,6 +16,12 @@
             return this;
         }
 
+        public ResultValidationBuilder AddResult(IResult result)
+        {
+            this._results.Add(result);
+            return this;
+        }
+
         public Result Build()
         {
             return this.AllSucceed

@@ -25,6 +25,11 @@
             return result.Bind(func);
         }
 
+        public static IResult ToResult<TResult>(this IResult<TResult> result)
+        {
+            return result.IsSuccess ? Result.Success() : Result.Fail(result.Messages);
+        }
+
         public static IResult<TResult> Try<TResult>(this Func<TResult> func)
         {
             try

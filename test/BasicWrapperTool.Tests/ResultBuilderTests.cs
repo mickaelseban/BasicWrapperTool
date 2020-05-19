@@ -6,6 +6,22 @@
     public class ResultBuilderTests
     {
         [Fact]
+        public void Build_WithFunctionThatWillThrowAnException_ShouldResultFail()
+        {
+            // Arrange
+            string stub = null;
+
+            // Act
+            var sut = new ResultBuilder()
+                .Ensure(() => stub.Contains("a"), "fail message")
+                .Build();
+
+            // Assert
+            Assert.True(sut.IsFail);
+            Assert.Single(sut.Messages);
+        }
+
+        [Fact]
         public void Build_WithMessages_ShouldResultFail()
         {
             // Arrange Act

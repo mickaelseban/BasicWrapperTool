@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public struct Result<TResult> : IResult<TResult>
+    public class Result<TResult> : IResult<TResult>
     {
         private readonly Result _resultComposite;
 
@@ -36,7 +36,7 @@
             return new Result<TResult>(default(TResult), Result.Fail(message));
         }
 
-        public static Result<TResult> Success(TResult value, string failMessage = null)
+        public static Result<TResult> Success(TResult value)
         {
             return new Result<TResult>(value, Result.Success());
         }
@@ -56,7 +56,7 @@
         }
     }
 
-    public struct Result : IResult
+    public class Result : IResult
     {
         private Result(bool isSuccess, IEnumerable<string> messages)
         {

@@ -67,7 +67,39 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
-        public void ToResult_WithFunctionOutResult_ResultFailWithMessage()
+        public void ToResult_ResultFailWithMessages_IResultFailWithoutValue()
+        {
+            // Arrange
+            IResult<int> result = Result<int>.Fail("test");
+
+            // Act
+            IResult actual = result.ToResult();
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Equal(result.IsFail, actual.IsFail);
+            Assert.Equal(result.IsSuccess, actual.IsSuccess);
+            Assert.Equal(result.Messages, actual.Messages);
+        }
+
+        [Fact]
+        public void ToResult_ResultSuccessWithInteger_IResultSuccessWithoutValue()
+        {
+            // Arrange
+            IResult<int> result = Result<int>.Success(1);
+
+            // Act
+            IResult actual = result.ToResult();
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Equal(result.IsFail, actual.IsFail);
+            Assert.Equal(result.IsSuccess, actual.IsSuccess);
+            Assert.Equal(result.Messages, actual.Messages);
+        }
+
+        [Fact]
+        public void Try_WithFunctionOutResult_ResultFailWithMessage()
         {
             // Arrange
             Func<int> func = () => Convert.ToInt32("test");
@@ -84,7 +116,7 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
-        public void ToResult_WithFunctionOutResult_ResultSuccess()
+        public void Try_WithFunctionOutResult_ResultSuccess()
         {
             // Arrange
             Func<int> func = () => 1;

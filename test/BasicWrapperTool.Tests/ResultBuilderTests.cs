@@ -1,5 +1,6 @@
 ﻿namespace BasicWrapperTool.Tests
 {
+    using FluentAssertions;
     using System.Linq;
     using Xunit;
 
@@ -127,6 +128,57 @@
             // Assert
             Assert.True(sut.IsFail);
             Assert.Single(sut.Messages);
+        }
+
+        [Fact]
+        public void Combine_NullOtherResultBuilder_ResultBuilderWithoutModification()
+        {
+            // Arrange
+            var sut = new ResultBuilder().EnsureNotNull(default(string), "test");
+            var otherResultBuilder = default(ResultBuilder);
+
+            // Act
+            var actual = sut.Combine(otherResultBuilder);
+
+            // Assert
+            actual.Should().Be(sut);
+        }
+
+        [Fact]
+        public void Combine_OtherResultBuilderWithoutMessages_ResultBuilderWithoutModification()
+        {
+            // Arrange
+            var sut = new ResultBuilder().EnsureNotNull(default(string), "test");
+            var otherResultBuilder = new ResultBuilder();
+
+            // Act
+            var actual = sut.Combine(otherResultBuilder);
+
+            // Assert
+            actual.Should().Be(sut);
+        }
+
+        [Fact]
+        public void Combine_OtherResultBuilderWithMessages_ResultBuilderCombined()
+        {
+            // Arrange
+            var sut = new ResultBuilder()
+                .EnsureNotNull(default(string), "test");
+
+            var otherResultBuilder = new ResultBuilder()
+                .EnsureNotNull(default(string), "test2");
+
+            var expected = new ResultBuilder()
+                .EnsureNotNull(default(string), "test")
+                .EnsureNotNull(default(string), "test2");
+
+            // Act
+            var actual = sut.Combine(otherResultBuilder);
+
+            // Assert
+            actual.Should().NotBeNull();
+            actual.Should().BeOfType<ResultBuilder>();
+            actual.Should().NotBe(sut);
         }
     }
 }

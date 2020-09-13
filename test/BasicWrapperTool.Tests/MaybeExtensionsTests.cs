@@ -11,7 +11,7 @@ namespace BasicWrapperTool.Tests
             const string value = "3";
 
             // Act
-            IMaybe<string> actual = value.ToMaybe();
+            Maybe<string> actual = value.ToMaybe();
 
             // Assert
             Assert.NotNull(actual);

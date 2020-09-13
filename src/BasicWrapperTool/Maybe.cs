@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class Maybe<T> : IMaybe<T> where T : class
+    public sealed class Maybe<T> where T : class
     {
         private readonly IEnumerable<T> _values;
 

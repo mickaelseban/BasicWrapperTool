@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Result<TResult> : IResult<TResult>
+    public class Result<TResult>
     {
         private readonly Result _resultComposite;
 
@@ -41,14 +41,14 @@
             return new Result<TResult>(value, Result.Success());
         }
 
-        public IResult<TResult2> Bind<TResult2>(Func<TResult, IResult<TResult2>> func)
+        public Result<TResult2> Bind<TResult2>(Func<TResult, Result<TResult2>> func)
         {
             return this.IsSuccess
                 ? func(this.Value)
                 : Result<TResult2>.Fail(this.Messages);
         }
 
-        public IResult<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
+        public Result<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
             return this.IsSuccess
                 ? Result<TResult2>.Success(func(this.Value))
@@ -56,7 +56,7 @@
         }
     }
 
-    public class Result : IResult
+    public class Result
     {
         private Result(bool isSuccess, IEnumerable<string> messages)
         {

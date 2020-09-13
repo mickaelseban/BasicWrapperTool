@@ -9,12 +9,12 @@ namespace BasicWrapperTool.Tests
         public void Bind_WithResult1AndResult2Success_ResultSuccess()
         {
             // Arrange
-            IResult<string> result = Result<string>.Success("test");
-            IResult<int> result2 = Result<int>.Success(123);
-            Func<string, IResult<int>> func = x => result2;
+            Result<string> result = Result<string>.Success("test");
+            Result<int> result2 = Result<int>.Success(123);
+            Func<string, Result<int>> func = x => result2;
 
             // Act
-            IResult<int> actual = result.Bind(func);
+            Result<int> actual = result.Bind(func);
 
             // Assert
             Assert.NotNull(actual);
@@ -70,12 +70,12 @@ namespace BasicWrapperTool.Tests
         public void Map_WithResult1AndResult2Success_ResultSuccess()
         {
             // Arrange
-            IResult<string> result = Result<string>.Success("test");
-            IResult<int> result2 = Result<int>.Success(123);
+            Result<string> result = Result<string>.Success("test");
+            Result<int> result2 = Result<int>.Success(123);
             Func<string, int> func = x => result2.Value;
 
             // Act
-            IResult<int> actual = result.Map(func);
+            Result<int> actual = result.Map(func);
 
             // Assert
             Assert.NotNull(actual);

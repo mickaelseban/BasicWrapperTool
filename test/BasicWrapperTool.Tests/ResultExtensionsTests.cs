@@ -1,6 +1,5 @@
 namespace BasicWrapperTool.Tests
 {
-    using Moq;
     using System;
     using Xunit;
 
@@ -10,18 +9,11 @@ namespace BasicWrapperTool.Tests
         public void FromMaybe_WithMaybeWithValueAndResultWithValueSuccess_ResultWithValueSuccess()
         {
             // Arrange
-            Mock<IMaybe<string>> maybeMock = new Mock<IMaybe<string>>();
-            maybeMock.Setup(m => m.Value).Returns("3");
-            maybeMock.Setup(m => m.HasValue).Returns(true);
-            maybeMock.Setup(m => m.HasNoValue).Returns(false);
-
-            Mock<IResult<int>> resultMock = new Mock<IResult<int>>();
-            resultMock.Setup(m => m.Value).Returns(3);
-            resultMock.Setup(m => m.IsSuccess).Returns(true);
-            resultMock.Setup(m => m.IsFail).Returns(false);
+            var maybe = new Maybe<string>("3");
+            var result = Result<int>.Success(3);
 
             // Act
-            IResult<int> actual = maybeMock.Object.FromMaybe("input cannot be null", () => resultMock.Object);
+            Result<int> actual = maybe.FromMaybe("input cannot be null", () => result);
 
             // Assert
             Assert.NotNull(actual);
@@ -39,7 +31,7 @@ namespace BasicWrapperTool.Tests
             Func<string, int> func = x => result2.Value;
 
             // Act
-            IResult<int> actual = result.Select(func);
+            Result<int> actual = result.Select(func);
 
             // Assert
             Assert.NotNull(actual);
@@ -54,10 +46,10 @@ namespace BasicWrapperTool.Tests
             // Arrange
             Result<string> result = Result<string>.Success("test");
             Result<int> result2 = Result<int>.Success(123);
-            Func<string, IResult<int>> func = x => result2;
+            Func<string, Result<int>> func = x => result2;
 
             // Act
-            IResult<int> actual = result.SelectMany(func);
+            Result<int> actual = result.SelectMany(func);
 
             // Assert
             Assert.NotNull(actual);
@@ -67,13 +59,13 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
-        public void ToResult_ResultFailWithMessages_IResultFailWithoutValue()
+        public void ToResult_ResultFailWithMessages_ResultFailWithoutValue()
         {
             // Arrange
-            IResult<int> result = Result<int>.Fail("test");
+            Result<int> result = Result<int>.Fail("test");
 
             // Act
-            IResult actual = result.ToResult();
+            Result actual = result.ToResult();
 
             // Assert
             Assert.NotNull(actual);
@@ -83,13 +75,13 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
-        public void ToResult_ResultSuccessWithInteger_IResultSuccessWithoutValue()
+        public void ToResult_ResultSuccessWithInteger_ResultSuccessWithoutValue()
         {
             // Arrange
-            IResult<int> result = Result<int>.Success(1);
+            Result<int> result = Result<int>.Success(1);
 
             // Act
-            IResult actual = result.ToResult();
+            Result actual = result.ToResult();
 
             // Assert
             Assert.NotNull(actual);
@@ -105,7 +97,7 @@ namespace BasicWrapperTool.Tests
             Func<int> func = () => Convert.ToInt32("test");
 
             // Act
-            IResult<int> actual = func.Try();
+            Result<int> actual = func.Try();
 
             // Assert
             Assert.NotNull(actual);
@@ -122,7 +114,7 @@ namespace BasicWrapperTool.Tests
             Func<int> func = () => 1;
 
             // Act
-            IResult<int> actual = func.Try();
+            Result<int> actual = func.Try();
 
             // Assert
             Assert.NotNull(actual);

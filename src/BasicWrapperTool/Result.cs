@@ -25,6 +25,11 @@ namespace BasicWrapperTool
             return result.Value;
         }
 
+        public static Result<TResult> Fail()
+        {
+            return new Result<TResult>(default, Result.Fail());
+        }
+
         public static Result<TResult> Fail(IEnumerable<string> messages)
         {
             return new Result<TResult>(default, Result.Fail(messages));
@@ -67,9 +72,16 @@ namespace BasicWrapperTool
 
         public bool IsSuccess { get; }
 
+        public bool HasMessages => Messages.Any(m => m != string.Empty);
+
         public string Message => string.Join(", ", Messages);
 
         public IEnumerable<string> Messages { get; }
+
+        public static Result Fail()
+        {
+            return new Result(false, default);
+        }
 
         public static Result Fail(string message)
         {

@@ -83,5 +83,29 @@ namespace BasicWrapperTool.Tests
             Assert.True(actual.IsSuccess);
             Assert.False(actual.IsFail);
         }
+
+        [Fact]
+        public void HasMessages_WithMessage_True()
+        {
+            // Assert
+            const string message = "test";
+
+            // Act
+            var actual = Result.Fail(message);
+
+            // Assert
+            Assert.True(actual.HasMessages);
+        }
+
+
+        [Fact]
+        public void HasMessages_WithoutMessage_False()
+        {
+            // Act
+            var actual = Result.Fail();
+
+            // Assert
+            Assert.False(actual.HasMessages);
+        }
     }
 }

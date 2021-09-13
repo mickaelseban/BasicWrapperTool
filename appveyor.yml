@@ -8,8 +8,7 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '{version}'
-install:
-  - sh: dotnet tool install --global dotnet-sonarscanner
+
 before_build:
   - sh: dotnet sonarscanner begin /k:mickaelseban_BasicWrapperTool /v:$APPVEYOR_BUILD_VERSION /o:mickaelseban /d:sonar.host.url=https://sonarcloud.io /d:sonar.login=6eea5d195976578b5f56f6bcbb81be4004fe83c1 /d:sonar.coverage.exclusions="tests/*Tests/**" /d:sonar.cs.opencover.reportsPaths="*.opencover.xml"
 build_script:

@@ -1,20 +1,20 @@
+using System;
+using Xunit;
+
 namespace BasicWrapperTool.Tests
 {
-    using System;
-    using Xunit;
-
     public class ResultTests
     {
         [Fact]
         public void Bind_WithResult1AndResult2Success_ResultSuccess()
         {
             // Arrange
-            Result<string> result = Result<string>.Success("test");
-            Result<int> result2 = Result<int>.Success(123);
+            var result = Result<string>.Success("test");
+            var result2 = Result<int>.Success(123);
             Func<string, Result<int>> func = x => result2;
 
             // Act
-            Result<int> actual = result.Bind(func);
+            var actual = result.Bind(func);
 
             // Assert
             Assert.NotNull(actual);
@@ -28,10 +28,10 @@ namespace BasicWrapperTool.Tests
         {
             // Arrange
             const string value = "test";
-            Result<string> result = Result<string>.Success("test");
+            var result = Result<string>.Success("test");
 
             // Act
-            string actual = (string)result;
+            var actual = (string)result;
 
             // Assert
             Assert.NotNull(actual);
@@ -46,7 +46,7 @@ namespace BasicWrapperTool.Tests
             const string failMessage = "test";
 
             // Act
-            Result actual = Result.Fail(failMessage);
+            var actual = Result.Fail(failMessage);
 
             // Assert
             Assert.Equal(failMessage, actual.Message);
@@ -58,7 +58,7 @@ namespace BasicWrapperTool.Tests
         public void FromSuccess_WithParameters_ResultFromSuccess()
         {
             // Act
-            Result actual = Result.Success();
+            var actual = Result.Success();
 
             // Assert
             Assert.Equal(string.Empty, actual.Message);
@@ -70,12 +70,12 @@ namespace BasicWrapperTool.Tests
         public void Map_WithResult1AndResult2Success_ResultSuccess()
         {
             // Arrange
-            Result<string> result = Result<string>.Success("test");
-            Result<int> result2 = Result<int>.Success(123);
+            var result = Result<string>.Success("test");
+            var result2 = Result<int>.Success(123);
             Func<string, int> func = x => result2.Value;
 
             // Act
-            Result<int> actual = result.Map(func);
+            var actual = result.Map(func);
 
             // Assert
             Assert.NotNull(actual);

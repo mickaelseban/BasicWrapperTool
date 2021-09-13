@@ -1,7 +1,7 @@
+using Xunit;
+
 namespace BasicWrapperTool.Tests
 {
-    using Xunit;
-
     public class ResultWithValueTests
     {
         [Fact]
@@ -15,7 +15,7 @@ namespace BasicWrapperTool.Tests
             var actual = Result<string>.Fail(failMessage);
 
             // Assert
-            Assert.Equal(default(string), actual.Value);
+            Assert.Equal(default, actual.Value);
             Assert.Equal(expectedFailMessage, actual.Message);
             Assert.False(actual.IsSuccess);
             Assert.True(actual.IsFail);

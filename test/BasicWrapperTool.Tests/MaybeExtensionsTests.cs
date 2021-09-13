@@ -1,7 +1,7 @@
+using Xunit;
+
 namespace BasicWrapperTool.Tests
 {
-    using Xunit;
-
     public class MaybeExtensionsTests
     {
         [Fact]
@@ -11,7 +11,7 @@ namespace BasicWrapperTool.Tests
             const string value = "3";
 
             // Act
-            Maybe<string> actual = value.ToMaybe();
+            var actual = value.ToMaybe();
 
             // Assert
             Assert.NotNull(actual);

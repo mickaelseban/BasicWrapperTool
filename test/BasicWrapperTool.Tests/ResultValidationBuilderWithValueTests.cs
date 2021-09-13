@@ -1,8 +1,8 @@
-﻿namespace BasicWrapperTool.Tests
-{
-    using System.Linq;
-    using Xunit;
+﻿using System.Linq;
+using Xunit;
 
+namespace BasicWrapperTool.Tests
+{
     public class ResultValidationBuilderWithValueTests
     {
         [Fact]

@@ -1,13 +1,13 @@
-﻿namespace BasicWrapperTool
-{
-    using System;
+﻿using System;
 
+namespace BasicWrapperTool
+{
     public static class ResultExtensions
     {
         public static Result<TResult> FromMaybe<TMaybe, TResult>(this Maybe<TMaybe> maybe,
-                  string failMessage,
-                  Func<Result<TResult>> func)
-                  where TMaybe : class
+            string failMessage,
+            Func<Result<TResult>> func)
+            where TMaybe : class
         {
             return maybe.HasValue
                 ? Result<TResult>.Success(func.Invoke().Value)

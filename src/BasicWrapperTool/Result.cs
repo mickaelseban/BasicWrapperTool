@@ -1,24 +1,23 @@
-﻿namespace BasicWrapperTool
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace BasicWrapperTool
+{
     public class Result<TResult>
     {
-        private readonly Result _resultComposite;
+        private readonly Result _innerResult;
 
-        private Result(TResult value, Result resultComposite)
+        private Result(TResult value, Result innerResult)
         {
-            this._resultComposite = resultComposite;
-            this.Value = value;
+            _innerResult = innerResult;
+            Value = value;
         }
 
-        public bool IsFail => this._resultComposite.IsFail;
-        public bool IsSuccess => this._resultComposite.IsSuccess;
-        public string Message => this._resultComposite.Message;
-
-        public IEnumerable<string> Messages => this._resultComposite.Messages;
+        public bool IsFail => _innerResult.IsFail;
+        public bool IsSuccess => _innerResult.IsSuccess;
+        public string Message => _innerResult.Message;
+        public IEnumerable<string> Messages => _innerResult.Messages;
         public TResult Value { get; }
 
         public static explicit operator TResult(Result<TResult> result)
@@ -28,12 +27,12 @@
 
         public static Result<TResult> Fail(IEnumerable<string> messages)
         {
-            return new Result<TResult>(default(TResult), Result.Fail(messages));
+            return new Result<TResult>(default, Result.Fail(messages));
         }
 
         public static Result<TResult> Fail(string message)
         {
-            return new Result<TResult>(default(TResult), Result.Fail(message));
+            return new Result<TResult>(default, Result.Fail(message));
         }
 
         public static Result<TResult> Success(TResult value)
@@ -43,16 +42,16 @@
 
         public Result<TResult2> Bind<TResult2>(Func<TResult, Result<TResult2>> func)
         {
-            return this.IsSuccess
-                ? func(this.Value)
-                : Result<TResult2>.Fail(this.Messages);
+            return IsSuccess
+                ? func(Value)
+                : Result<TResult2>.Fail(Messages);
         }
 
         public Result<TResult2> Map<TResult2>(Func<TResult, TResult2> func)
         {
-            return this.IsSuccess
-                ? Result<TResult2>.Success(func(this.Value))
-                : Result<TResult2>.Fail(this.Messages);
+            return IsSuccess
+                ? Result<TResult2>.Success(func(Value))
+                : Result<TResult2>.Fail(Messages);
         }
     }
 
@@ -60,15 +59,15 @@
     {
         private Result(bool isSuccess, IEnumerable<string> messages)
         {
-            this.IsSuccess = isSuccess;
-            this.Messages = messages?.Where(m => !string.IsNullOrEmpty(m)) ?? Enumerable.Empty<string>();
+            IsSuccess = isSuccess;
+            Messages = messages?.Where(m => !string.IsNullOrEmpty(m)) ?? Enumerable.Empty<string>();
         }
 
-        public bool IsFail => !this.IsSuccess;
+        public bool IsFail => !IsSuccess;
 
-        public bool IsSuccess { get; private set; }
+        public bool IsSuccess { get; }
 
-        public string Message => string.Join(", ", this.Messages);
+        public string Message => string.Join(", ", Messages);
 
         public IEnumerable<string> Messages { get; }
 
@@ -84,7 +83,7 @@
 
         public static Result Success()
         {
-            return new Result(true, default(IEnumerable<string>));
+            return new Result(true, default);
         }
     }
 }

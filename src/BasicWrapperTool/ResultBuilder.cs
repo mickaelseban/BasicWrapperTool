@@ -1,9 +1,9 @@
-﻿namespace BasicWrapperTool
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace BasicWrapperTool
+{
     public class ResultBuilder
     {
         private readonly IList<string> _messages = new List<string>();
@@ -17,7 +17,7 @@
                 return this;
 
             var resultBuilder = new ResultBuilder();
-            this._messages.ToList().ForEach(m => resultBuilder._messages.Add(m));
+            _messages.ToList().ForEach(m => resultBuilder._messages.Add(m));
             otherResultBuilder._messages.ToList().ForEach(m => resultBuilder._messages.Add(m));
 
             return resultBuilder;
@@ -25,22 +25,22 @@
 
         public Result Build()
         {
-            return this._messages.Any()
-                ? Result.Fail(this._messages)
+            return _messages.Any()
+                ? Result.Fail(_messages)
                 : Result.Success();
         }
 
         public Result<T> Build<T>(T value)
         {
-            return this._messages.Any()
-                ? Result<T>.Fail(this._messages)
+            return _messages.Any()
+                ? Result<T>.Fail(_messages)
                 : Result<T>.Success(value);
         }
 
         public ResultBuilder Ensure(Func<bool> validation, string message)
         {
             if (!Validate(validation))
-                this._messages.Add(message);
+                _messages.Add(message);
 
             return this;
         }
@@ -48,7 +48,7 @@
         public ResultBuilder EnsureNotNull<T>(T inputValidation, string message) where T : class
         {
             if (inputValidation is null)
-                this._messages.Add(message);
+                _messages.Add(message);
 
             return this;
         }

@@ -1,7 +1,7 @@
+using Xunit;
+
 namespace BasicWrapperTool.Tests
 {
-    using Xunit;
-
     public class MaybeTests
     {
         [Fact]

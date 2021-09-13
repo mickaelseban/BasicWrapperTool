@@ -1,9 +1,9 @@
-﻿namespace BasicWrapperTool.Tests
-{
-    using FluentAssertions;
-    using System.Linq;
-    using Xunit;
+﻿using System.Linq;
+using FluentAssertions;
+using Xunit;
 
+namespace BasicWrapperTool.Tests
+{
     public class ResultBuilderTests
     {
         [Fact]

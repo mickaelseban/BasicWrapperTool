@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BasicWrapperTool
 {
@@ -28,6 +30,11 @@ namespace BasicWrapperTool
         public static Result ToResult<TResult>(this Result<TResult> result)
         {
             return result.IsSuccess ? Result.Success() : Result.Fail(result.Messages);
+        }
+
+        public static Result<TValue> ToResult<TValue>(this TValue value, Predicate<TValue> predicate) where TValue : class
+        {
+            return predicate.Invoke(value) ? Result<TValue>.Success(value) : Result<TValue>.Fail();
         }
 
         public static Result<TResult> Try<TResult>(this Func<TResult> func)

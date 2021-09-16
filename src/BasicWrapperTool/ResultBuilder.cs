@@ -37,9 +37,15 @@ namespace BasicWrapperTool
                 : Result<T>.Success(value);
         }
 
-        public void ThrowIfFails()
+        public void ThrowsIfFails()
         {
             if (_messages.Any()) throw new ArgumentException(string.Join(", ", _messages));
+        }
+
+        public T BuildAndThrowsIfFails<T>(T value)
+        {
+            if (_messages.Any()) throw new ArgumentException(string.Join(", ", _messages));
+            return value;
         }
 
         public ResultBuilder Ensure(Func<bool> validation, string message)

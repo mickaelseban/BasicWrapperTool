@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BasicWrapperTool
@@ -32,7 +31,8 @@ namespace BasicWrapperTool
             return result.IsSuccess ? Result.Success() : Result.Fail(result.Messages);
         }
 
-        public static Result<TValue> ToResult<TValue>(this TValue value, Predicate<TValue> predicate) where TValue : class
+        public static Result<TValue> ToResult<TValue>(this TValue value, Predicate<TValue> predicate)
+            where TValue : class
         {
             return predicate.Invoke(value) ? Result<TValue>.Success(value) : Result<TValue>.Fail();
         }
@@ -48,6 +48,13 @@ namespace BasicWrapperTool
             {
                 return Result<TResult>.Fail(ex.Message);
             }
+        }
+
+        public static Result Combine<T>(this Result<T> result, Result<T> otherResult)
+        {
+            if (result.IsFail && otherResult.IsFail) return Result.Fail(result.Messages.Concat(otherResult.Messages));
+
+            return result.IsFail ? result.ToResult() : otherResult.ToResult();
         }
     }
 }

@@ -45,6 +45,16 @@ namespace BasicWrapperTool
             return new Result<TResult>(value, Result.Success());
         }
 
+        public static Result<TResult> Success(TResult value, IEnumerable<string> messages)
+        {
+            return new Result<TResult>(value, Result.Success(messages));
+        }
+
+        public static Result<TResult> Success(TResult value, string message)
+        {
+            return new Result<TResult>(value, Result.Success(message));
+        }
+
         public Result<TResult2> Bind<TResult2>(Func<TResult, Result<TResult2>> func)
         {
             return IsSuccess
@@ -96,6 +106,16 @@ namespace BasicWrapperTool
         public static Result Success()
         {
             return new Result(true, default);
+        }
+
+        public static Result Success(string message)
+        {
+            return new Result(true, new List<string> { message });
+        }
+
+        public static Result Success(IEnumerable<string> messages)
+        {
+            return new Result(true, messages);
         }
     }
 }

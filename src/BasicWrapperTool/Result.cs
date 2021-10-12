@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace BasicWrapperTool
+﻿namespace BasicWrapperTool
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Result<TResult>
     {
         private readonly Result _innerResult;
@@ -20,7 +20,7 @@ namespace BasicWrapperTool
         public IEnumerable<string> Messages => _innerResult.Messages;
         public TResult Value { get; }
 
-        public static explicit operator TResult(Result<TResult> result)
+        public static implicit operator TResult(Result<TResult> result)
         {
             return result.Value;
         }
@@ -87,6 +87,7 @@ namespace BasicWrapperTool
         public string Message => string.Join(", ", Messages);
 
         public IEnumerable<string> Messages { get; }
+
 
         public static Result Fail()
         {

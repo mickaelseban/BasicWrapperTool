@@ -31,10 +31,10 @@ namespace BasicWrapperTool
             return result.IsSuccess ? Result.Success() : Result.Fail(result.Messages);
         }
 
-        public static Result<TValue> ToResult<TValue>(this TValue value, Predicate<TValue> predicate)
+        public static Result<TValue> ToResult<TValue>(this TValue value, Predicate<TValue> predicate, string failMessage = null)
             where TValue : class
         {
-            return predicate.Invoke(value) ? Result<TValue>.Success(value) : Result<TValue>.Fail();
+            return predicate.Invoke(value) ? Result<TValue>.Success(value) : Result<TValue>.Fail(failMessage);
         }
 
         public static Result<TResult> Try<TResult>(this Func<TResult> func)

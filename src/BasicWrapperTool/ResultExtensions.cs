@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace BasicWrapperTool
 {
+    using System.Threading.Tasks;
+
     public static class ResultExtensions
     {
         public static Result<TResult> FromMaybe<TMaybe, TResult>(this Maybe<TMaybe> maybe,
@@ -43,6 +45,18 @@ namespace BasicWrapperTool
             {
                 var value = func();
                 return Result<TResult>.Success(value);
+            }
+            catch (Exception ex)
+            {
+                return Result<TResult>.Fail(ex.Message);
+            }
+        }
+
+        public static async Task<Result<TResult>> Try<TResult>(this Task<TResult> func)
+        {
+            try
+            {
+                return Result<TResult>.Success(await func);
             }
             catch (Exception ex)
             {

@@ -3,18 +3,20 @@ using System.Linq;
 
 namespace BasicWrapperTool
 {
+    using System;
+
     public sealed class Maybe<T> where T : class
     {
         private readonly IEnumerable<T> _values;
 
         public Maybe()
         {
-            _values = new T[0];
+            _values = Array.Empty<T>();
         }
 
         public Maybe(T value)
         {
-            _values = new[] { value };
+            _values = value is null ? Array.Empty<T>() : new[] { value };
         }
 
         public bool HasNoValue => !HasValue;

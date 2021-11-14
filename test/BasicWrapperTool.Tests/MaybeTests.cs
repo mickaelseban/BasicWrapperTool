@@ -32,6 +32,20 @@ namespace BasicWrapperTool.Tests
         }
 
         [Fact]
+        public void Ctor_WithNullString_CorrectState()
+        {
+            // Arrange & Act
+            string maybeContent = null;
+            var actual = new Maybe<string>(maybeContent);
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Null(actual.Value);
+            Assert.False(actual.HasValue);
+            Assert.True(actual.HasNoValue);
+        }
+
+        [Fact]
         public void ExplicitOperator_WithValue_ReturnsMaybe()
         {
             // Arrange

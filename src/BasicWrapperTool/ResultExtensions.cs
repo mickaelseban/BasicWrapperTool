@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-
-namespace BasicWrapperTool
+﻿namespace BasicWrapperTool
 {
     using System.Threading.Tasks;
+    using System;
+    using System.Linq;
 
     public static class ResultExtensions
     {
@@ -15,6 +14,14 @@ namespace BasicWrapperTool
             return maybe.HasValue
                 ? Result<TResult>.Success(func.Invoke().Value)
                 : Result<TResult>.Fail(failMessage);
+        }
+
+        public static Result<TValue> ConvertToResult<TValue>(this Maybe<TValue> maybe)
+            where TValue : class
+        {
+            return maybe.HasValue
+                ? Result<TValue>.Success(maybe.Value)
+                : Result<TValue>.Fail();
         }
 
         public static Result<TResult> Select<TSource, TResult>(this Result<TSource> result, Func<TSource, TResult> func)

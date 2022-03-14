@@ -6,6 +6,34 @@ namespace BasicWrapperTool.Tests
     public class ResultExtensionsTests
     {
         [Fact]
+        public void ConvertMaybe_WithMaybeWithValue_ShouldReturnResultSuccess()
+        {
+            // Arrange
+            var maybe = new Maybe<string>("3");
+
+            // Act
+            var actual = maybe.ConvertToResult();
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.True(actual.IsSuccess);
+        }
+
+        [Fact]
+        public void ConvertMaybe_WithMaybeWithNoValue_ShouldReturnResultFail()
+        {
+            // Arrange
+            var maybe = new Maybe<string>(default);
+
+            // Act
+            var actual = maybe.ConvertToResult();
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.True(actual.IsFail);
+        }
+
+        [Fact]
         public void FromMaybe_WithMaybeWithValueAndResultWithValueSuccess_ResultWithValueSuccess()
         {
             // Arrange
